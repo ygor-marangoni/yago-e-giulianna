@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(printf '')",
+      "Bash(/c/Users/drz/Desktop/Pessoal/Julianne/README.md:*)",
+      "Bash(/c/Users/drz/Desktop/Pessoal/Julianne/.gitignore:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

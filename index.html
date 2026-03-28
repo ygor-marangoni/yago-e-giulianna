@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giulianna & Yago</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loading-screen">
+  <div class="loading-heart">
+    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="var(--rosa-500)" stroke="var(--rosa-500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+  </div>
+  <p class="loading-text">Carregando nossos momentos...</p>
+</div>
+
+<!-- Error Screen -->
+<div id="error-screen">
+  <div class="error-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="var(--rosa-300)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.56 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+  </div>
+  <h2>Sem conexão</h2>
+  <p>Não foi possível carregar os dados.<br>Verifique sua conexão e tente novamente.</p>
+  <button class="btn btn-primary" onclick="location.reload()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+    Tentar novamente
+  </button>
+</div>
+
+<!-- Mobile Header -->
+<div class="mobile-header">
+  <span class="mob-title"><i data-lucide="heart" style="width:16px;height:16px;fill:var(--rosa-500);stroke:var(--rosa-500)"></i> G & Y</span>
+  <button class="hamburger" onclick="toggleSidebar()"><i data-lucide="menu" style="width:22px;height:22px"></i></button>
+</div>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="logo-area">
+    <div class="logo-title">Nosso Tempo</div>
+    <div class="logo-names">Giulianna & Yago</div>
+  </div>
+
+  <ul class="nav-menu">
+    <li class="nav-item active" onclick="navigateTo('home')">
+      <span class="nav-icon"><i data-lucide="home" style="width:18px;height:18px"></i></span> Início
+    </li>
+    <li class="nav-item" onclick="navigateTo('register')">
+      <span class="nav-icon"><i data-lucide="pencil" style="width:18px;height:18px"></i></span> Registrar
+    </li>
+    <li class="nav-item" onclick="navigateTo('history')">
+      <span class="nav-icon"><i data-lucide="book-open" style="width:18px;height:18px"></i></span> Histórico
+    </li>
+    <li class="nav-item" onclick="navigateTo('reports')">
+      <span class="nav-icon"><i data-lucide="bar-chart-3" style="width:18px;height:18px"></i></span> Relatórios
+    </li>
+    <li class="nav-item" onclick="navigateTo('album')">
+      <span class="nav-icon"><i data-lucide="image" style="width:18px;height:18px"></i></span> Álbum
+    </li>
+    <li class="nav-item" onclick="navigateTo('timeline')">
+      <span class="nav-icon"><i data-lucide="milestone" style="width:18px;height:18px"></i></span> Linha do Tempo
+    </li>
+    <li class="nav-item" onclick="navigateTo('config')">
+      <span class="nav-icon"><i data-lucide="settings" style="width:18px;height:18px"></i></span> Ajustes
+    </li>
+  </ul>
+
+  <div class="sidebar-footer">
+    <p>feito com <i data-lucide="heart" style="width:12px;height:12px;fill:var(--rosa-400);stroke:var(--rosa-400)"></i> amor</p>
+  </div>
+</nav>
+
+<!-- Hearts Background -->
+<div class="hearts-bg" aria-hidden="true">
+  <div class="hrt" style="left:8%;top:10%;width:12px;height:12px;opacity:.13;animation:hf1 34s ease-in-out infinite"></div>
+  <div class="hrt" style="left:20%;top:58%;width:8px;height:8px;opacity:.12;animation:hf2 42s ease-in-out infinite -12s"></div>
+  <div class="hrt" style="left:34%;top:22%;width:18px;height:18px;opacity:.10;animation:hf3 50s ease-in-out infinite -6s"></div>
+  <div class="hrt" style="left:25%;top:82%;width:10px;height:10px;opacity:.13;animation:hf1 30s ease-in-out infinite -20s"></div>
+  <div class="hrt" style="left:46%;top:14%;width:16px;height:16px;opacity:.11;animation:hf2 40s ease-in-out infinite -9s"></div>
+  <div class="hrt" style="left:53%;top:68%;width:10px;height:10px;opacity:.14;animation:hf3 44s ease-in-out infinite -24s"></div>
+  <div class="hrt" style="left:38%;top:44%;width:8px;height:8px;opacity:.11;animation:hf1 38s ease-in-out infinite -4s"></div>
+  <div class="hrt" style="left:66%;top:30%;width:14px;height:14px;opacity:.12;animation:hf2 46s ease-in-out infinite -16s"></div>
+  <div class="hrt" style="left:73%;top:75%;width:12px;height:12px;opacity:.11;animation:hf3 28s ease-in-out infinite -8s"></div>
+  <div class="hrt" style="left:81%;top:12%;width:20px;height:20px;opacity:.10;animation:hf1 52s ease-in-out infinite -22s"></div>
+  <div class="hrt" style="left:87%;top:88%;width:8px;height:8px;opacity:.13;animation:hf2 36s ease-in-out infinite -14s"></div>
+  <div class="hrt" style="left:93%;top:50%;width:16px;height:16px;opacity:.11;animation:hf3 42s ease-in-out infinite -28s"></div>
+  <div class="hrt" style="left:59%;top:92%;width:10px;height:10px;opacity:.14;animation:hf1 34s ease-in-out infinite -5s"></div>
+  <div class="hrt" style="left:48%;top:48%;width:12px;height:12px;opacity:.11;animation:hf2 48s ease-in-out infinite -18s"></div>
+  <div class="hrt" style="left:15%;top:35%;width:8px;height:8px;opacity:.13;animation:hf3 40s ease-in-out infinite -10s"></div>
+  <div class="hrt" style="left:3%;top:65%;width:14px;height:14px;opacity:.10;animation:hf2 45s ease-in-out infinite -7s"></div>
+  <div class="hrt" style="left:11%;top:88%;width:10px;height:10px;opacity:.12;animation:hf3 32s ease-in-out infinite -17s"></div>
+  <div class="hrt" style="left:29%;top:5%;width:8px;height:8px;opacity:.11;animation:hf1 44s ease-in-out infinite -3s"></div>
+  <div class="hrt" style="left:42%;top:78%;width:16px;height:16px;opacity:.10;animation:hf2 38s ease-in-out infinite -26s"></div>
+  <div class="hrt" style="left:61%;top:18%;width:10px;height:10px;opacity:.13;animation:hf3 46s ease-in-out infinite -11s"></div>
+  <div class="hrt" style="left:70%;top:55%;width:8px;height:8px;opacity:.12;animation:hf1 30s ease-in-out infinite -19s"></div>
+  <div class="hrt" style="left:78%;top:38%;width:12px;height:12px;opacity:.11;animation:hf2 50s ease-in-out infinite -2s"></div>
+  <div class="hrt" style="left:90%;top:22%;width:8px;height:8px;opacity:.13;animation:hf3 36s ease-in-out infinite -23s"></div>
+  <div class="hrt" style="left:96%;top:72%;width:14px;height:14px;opacity:.10;animation:hf1 42s ease-in-out infinite -31s"></div>
+  <div class="hrt" style="left:5%;top:42%;width:10px;height:10px;opacity:.12;animation:hf2 54s ease-in-out infinite -8s"></div>
+  <div class="hrt" style="left:55%;top:38%;width:18px;height:18px;opacity:.09;animation:hf3 56s ease-in-out infinite -13s"></div>
+  <div class="hrt" style="left:32%;top:60%;width:8px;height:8px;opacity:.12;animation:hf1 36s ease-in-out infinite -29s"></div>
+</div>
+
+<!-- Main Content -->
+<main class="main">
+
+  <!-- HOME -->
+  <section class="page active" id="page-home">
+    <div class="home-wrap">
+
+      <!-- Bloco 1: Identidade -->
+      <div class="home-identity">
+
+        <div class="home-photo-wrap">
+          <div class="home-polaroid" id="home-polaroid" style="display:none">
+            <div class="home-photo-inner">
+              <img id="home-photo-img" src="" alt="Foto do casal">
+            </div>
+          </div>
+          <div class="home-photo-heart" id="home-photo-heart" style="display:none">
+            <i data-lucide="heart" style="width:16px;height:16px;fill:var(--rosa-500);stroke:var(--rosa-500)"></i>
+          </div>
+          <div class="home-photo-ph" id="home-photo-placeholder" onclick="navigateTo('config')">
+            <i data-lucide="camera" style="width:22px;height:22px;color:var(--rosa-400)"></i>
+            <span>Adicionar foto de vocês</span>
+          </div>
+        </div>
+
+        <h1 class="home-greet" id="home-greet"></h1>
+        <p class="home-subgreet" id="home-subgreet"></p>
+
+      </div>
+
+      <!-- Bloco 2: Tempo -->
+      <div class="home-counter-block">
+        <div class="home-counter" id="home-counter-wrap">
+          <div class="cnt-unit" id="cnt-unit-years">
+            <span class="cnt-num" id="cnt-years">0</span>
+            <span class="cnt-lbl">anos</span>
+          </div>
+          <span class="cnt-sep" id="cnt-sep-1"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="var(--rosa-600)" stroke="var(--rosa-600)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+          <div class="cnt-unit" id="cnt-unit-months">
+            <span class="cnt-num" id="cnt-months">0</span>
+            <span class="cnt-lbl">meses</span>
+          </div>
+          <span class="cnt-sep" id="cnt-sep-2"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="var(--rosa-600)" stroke="var(--rosa-600)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+          <div class="cnt-unit">
+            <span class="cnt-num" id="cnt-days">0</span>
+            <span class="cnt-lbl">dias</span>
+          </div>
+        </div>
+        <div class="home-no-date" id="home-no-date" style="display:none" onclick="navigateTo('config')">
+          Configure a data do namoro em <em>Ajustes</em>
+        </div>
+      </div>
+
+      <!-- Bloco 3: Alma -->
+      <div class="home-quote" id="home-quote" style="display:none">
+        <i data-lucide="quote" class="home-quote-icon" style="width:30px;height:30px"></i>
+        <p id="home-quote-text"></p>
+      </div>
+
+      <!-- Bloco 4: Ação -->
+      <div class="home-actions">
+        <button class="home-register-btn" onclick="navigateTo('register')">
+          <i data-lucide="pencil" style="width:14px;height:14px"></i> Registrar momento
+        </button>
+        <button class="home-secondary-btn" onclick="navigateTo('album')">
+          <i data-lucide="image" style="width:13px;height:13px"></i> Ver álbum
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- REGISTER -->
+  <section class="page" id="page-register">
+    <div class="page-header">
+      <h1>Registrar Momento</h1>
+      <p><i data-lucide="heart" style="width:14px;height:14px;color:var(--rosa-400)"></i> Adicione as horas que vocês passaram juntos</p>
+    </div>
+
+    <div class="card">
+      <div class="form-grid">
+        <div>
+          <label><span class="label-icon"><i data-lucide="calendar" style="width:14px;height:14px"></i></span> Data</label>
+          <input type="date" id="reg-date">
+        </div>
+        <div>
+          <label><span class="label-icon"><i data-lucide="clock" style="width:14px;height:14px"></i></span> Tempo juntos</label>
+          <div class="time-input-row">
+            <input type="number" id="reg-hours" placeholder="0" min="0" max="23" step="1">
+            <span class="time-sep">h</span>
+            <input type="number" id="reg-minutes" placeholder="0" min="0" max="59" step="1">
+            <span class="time-sep">min</span>
+          </div>
+        </div>
+        <div class="form-full">
+          <label><span class="label-icon"><i data-lucide="sparkles" style="width:14px;height:14px"></i></span> O que vocês fizeram?</label>
+          <div class="preset-tags" id="preset-tags"></div>
+          <div class="custom-activity-row">
+            <input type="text" id="custom-activity" placeholder="Adicionar atividade personalizada...">
+            <button class="btn btn-secondary btn-sm" onclick="addCustomTag()"><i data-lucide="plus" style="width:14px;height:14px"></i></button>
+          </div>
+        </div>
+        <div class="form-full">
+          <label><span class="label-icon"><i data-lucide="file-text" style="width:14px;height:14px"></i></span> Observação (opcional)</label>
+          <textarea id="reg-note" placeholder="Algo especial que queira lembrar..."></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="saveEntry()"><i data-lucide="heart" style="width:15px;height:15px"></i> Salvar Momento</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="page" id="page-history">
+    <div class="page-header">
+      <h1>Nosso Histórico</h1>
+      <p><i data-lucide="book-open" style="width:14px;height:14px;color:var(--rosa-400)"></i> Todos os momentos compartilhados</p>
+    </div>
+
+    <div class="history-filters">
+      <span class="filter-chip active" onclick="filterHistory('all', this)">Todos</span>
+      <span class="filter-chip" onclick="filterHistory('week', this)">Esta semana</span>
+      <span class="filter-chip" onclick="filterHistory('month', this)">Este mês</span>
+    </div>
+
+    <div class="history-list" id="history-list"></div>
+  </section>
+
+  <!-- REPORTS -->
+  <section class="page" id="page-reports">
+    <div class="page-header">
+      <h1>Relatórios</h1>
+      <p><i data-lucide="bar-chart-3" style="width:14px;height:14px;color:var(--rosa-400)"></i> Visualize como vocês aproveitam o tempo</p>
+    </div>
+
+    <div class="report-summary">
+      <div class="report-stat">
+        <div class="icon-wrap"><i data-lucide="clock" style="width:18px;height:18px"></i></div>
+        <div class="value" id="rpt-total-h">0h</div>
+        <div class="label">Total de horas</div>
+      </div>
+      <div class="report-stat">
+        <div class="icon-wrap"><i data-lucide="trending-up" style="width:18px;height:18px"></i></div>
+        <div class="value" id="rpt-avg-h">0h</div>
+        <div class="label">Média semanal</div>
+      </div>
+      <div class="report-stat">
+        <div class="icon-wrap"><i data-lucide="trophy" style="width:18px;height:18px"></i></div>
+        <div class="value" id="rpt-best-day">---</div>
+        <div class="label">Melhor dia</div>
+      </div>
+      <div class="report-stat">
+        <div class="icon-wrap"><i data-lucide="flame" style="width:18px;height:18px"></i></div>
+        <div class="value" id="rpt-streak">0</div>
+        <div class="label">Dias seguidos</div>
+      </div>
+    </div>
+
+    <div class="reports-grid">
+      <div class="chart-card full-width">
+        <div class="chart-title"><i data-lucide="trending-up" style="width:14px;height:14px"></i> Horas por dia - últimos 30 dias</div>
+        <div class="chart-container tall"><canvas id="chart-daily"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title"><i data-lucide="target" style="width:14px;height:14px"></i> Atividades mais frequentes</div>
+        <div class="chart-container"><canvas id="chart-activities"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title"><i data-lucide="calendar-days" style="width:14px;height:14px"></i> Horas por dia - últimos 7 dias</div>
+        <div class="chart-container"><canvas id="chart-weekday"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÁLBUM -->
+  <section class="page" id="page-album">
+    <div class="page-header">
+      <h1>Nosso Álbum</h1>
+      <p><i data-lucide="image" style="width:14px;height:14px;color:var(--rosa-400)"></i> As memórias mais especiais de vocês dois</p>
+    </div>
+
+    <!-- Formulário de nova foto -->
+    <div class="card album-form-card" id="album-form-card" style="display:none; margin-bottom:28px;">
+      <div class="card-title"><i data-lucide="image" style="width:14px;height:14px"></i> Nova Foto</div>
+      <div class="upload-area" id="upload-area" onclick="handleUploadClick()">
+        <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handlePhotoSelect(this)">
+        <div class="upload-placeholder" id="upload-placeholder">
+          <i data-lucide="upload-cloud" style="width:40px;height:40px;color:var(--rosa-300)"></i>
+          <p>Clique ou arraste uma foto aqui</p>
+          <span>JPG, PNG ou WEBP</span>
+        </div>
+        <div class="upload-preview" id="upload-preview" style="display:none">
+          <img id="preview-img" src="" alt="">
+          <button class="preview-remove" onclick="removePreview(event)"><i data-lucide="x" style="width:14px;height:14px"></i></button>
+        </div>
+      </div>
+      <div class="form-grid" style="margin-top:24px;">
+        <div>
+          <label><span class="label-icon"><i data-lucide="calendar" style="width:14px;height:14px"></i></span> Data</label>
+          <input type="date" id="album-date">
+        </div>
+        <div>
+          <label><span class="label-icon"><i data-lucide="type" style="width:14px;height:14px"></i></span> Legenda</label>
+          <input type="text" id="album-caption" placeholder="Uma legenda especial...">
+        </div>
+        <div class="form-full">
+          <label><span class="label-icon"><i data-lucide="file-text" style="width:14px;height:14px"></i></span> Descrição (opcional)</label>
+          <textarea id="album-desc" placeholder="Conte mais sobre esse momento..."></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="savePhoto()"><i data-lucide="heart" style="width:15px;height:15px"></i> Salvar no Álbum</button>
+        <button class="btn btn-secondary" onclick="closeAlbumForm()">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Controles -->
+    <div class="album-controls">
+      <button class="btn btn-primary btn-sm" id="btn-add-photo" onclick="openAlbumForm()"><i data-lucide="plus" style="width:14px;height:14px"></i> Adicionar Foto</button>
+      <div class="album-filters">
+        <span class="filter-chip active" onclick="filterAlbum('all', this)">Todas</span>
+        <span class="filter-chip" onclick="filterAlbum('month', this)">Este mês</span>
+        <span class="filter-chip" onclick="filterAlbum('year', this)">Este ano</span>
+      </div>
+    </div>
+
+    <div class="album-count" id="album-count"></div>
+    <div class="album-grid" id="album-grid"></div>
+  </section>
+
+  <!-- LINHA DO TEMPO -->
+  <section class="page" id="page-timeline">
+    <div class="page-header">
+      <h1>Nossa Linha do Tempo</h1>
+      <p><i data-lucide="milestone" style="width:14px;height:14px;color:var(--rosa-400)"></i> Reviva cada capítulo dessa história
+
+</p>
+    </div>
+
+    <!-- Formulário de novo marco -->
+    <div class="card" id="milestone-form-card" style="display:none; margin-bottom:28px;">
+      <div class="card-title"><i data-lucide="plus-circle" style="width:14px;height:14px"></i> Novo Marco</div>
+      <div class="form-grid">
+        <div>
+          <label><span class="label-icon"><i data-lucide="calendar" style="width:14px;height:14px"></i></span> Data</label>
+          <input type="date" id="ms-date">
+        </div>
+        <div>
+          <label><span class="label-icon"><i data-lucide="type" style="width:14px;height:14px"></i></span> Título do marco</label>
+          <input type="text" id="ms-title" placeholder="Ex: Nosso primeiro beijo">
+        </div>
+        <div class="form-full">
+          <label><span class="label-icon"><i data-lucide="file-text" style="width:14px;height:14px"></i></span> Descrição <span style="font-weight:400;color:var(--text-muted)">(opcional)</span></label>
+          <textarea id="ms-desc" placeholder="Conte como foi esse momento especial..."></textarea>
+        </div>
+        <div class="form-full">
+          <label><span class="label-icon"><i data-lucide="camera" style="width:14px;height:14px"></i></span> Foto <span style="font-weight:400;color:var(--text-muted)">(opcional)</span></label>
+          <div class="upload-area ms-upload-area" id="ms-upload-area" onclick="document.getElementById('ms-photo-input').click()">
+            <input type="file" id="ms-photo-input" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handleMilestonePhotoSelect(this)">
+            <div class="upload-placeholder ms-upload-placeholder" id="ms-upload-placeholder">
+              <i data-lucide="image-plus" style="width:34px;height:34px;color:var(--rosa-300)"></i>
+              <p>Clique para adicionar uma foto</p>
+            </div>
+            <div class="upload-preview" id="ms-upload-preview" style="display:none">
+              <img id="ms-preview-img" src="" alt="">
+              <button class="preview-remove" onclick="removeMilestonePreview(event)"><i data-lucide="x" style="width:14px;height:14px"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="saveMilestone()"><i data-lucide="heart" style="width:15px;height:15px"></i> Salvar Marco</button>
+        <button class="btn btn-secondary" onclick="closeMilestoneForm()">Cancelar</button>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <button class="btn btn-primary btn-sm" id="btn-add-milestone" onclick="openMilestoneForm()"><i data-lucide="plus" style="width:14px;height:14px"></i> Adicionar Marco</button>
+    </div>
+
+    <div class="milestone-count" id="milestone-count"></div>
+    <div id="timeline-container"></div>
+  </section>
+
+  <!-- CONFIG -->
+  <section class="page" id="page-config">
+    <div class="page-header">
+      <h1>Ajustes</h1>
+      <p><i data-lucide="settings" style="width:14px;height:14px;color:var(--rosa-400)"></i> Personalize a experiência do casal</p>
+    </div>
+
+    <div class="card config-section">
+      <div class="card-title"><i data-lucide="users" style="width:14px;height:14px"></i> Nomes do casal</div>
+      <div class="couple-names-row">
+        <div>
+          <label>Nome dela</label>
+          <input type="text" id="cfg-name1" value="Giulianna">
+        </div>
+        <div class="couple-heart-icon"><i data-lucide="heart" style="width:22px;height:22px;fill:var(--rosa-400);stroke:var(--rosa-400)"></i></div>
+        <div>
+          <label>Nome dele</label>
+          <input type="text" id="cfg-name2" value="Yago">
+        </div>
+      </div>
+      <div style="margin-top: 18px">
+        <button class="btn btn-primary btn-sm" onclick="saveConfig()"><i data-lucide="check" style="width:14px;height:14px"></i> Salvar</button>
+      </div>
+    </div>
+
+    <div class="card config-section">
+      <div class="card-title"><i data-lucide="tag" style="width:14px;height:14px"></i> Atividades personalizadas</div>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:12px">Adicione atividades que aparecem ao registrar</p>
+      <div class="tag-input-row">
+        <button class="icon-picker-btn" id="cfg-icon-btn" type="button" onclick="openIconPicker(event)"><i data-lucide="sparkles" style="width:16px;height:16px"></i></button>
+        <input type="text" id="cfg-new-tag" placeholder="Nova atividade...">
+        <button class="btn btn-secondary btn-sm tag-add-btn" onclick="addGlobalTag()"><i data-lucide="plus" style="width:14px;height:14px"></i> Adicionar</button>
+      </div>
+      <div class="icon-picker-popup" id="icon-picker-popup"></div>
+      <div class="custom-tags-list" id="global-tags-list"></div>
+    </div>
+
+    <div class="card config-section">
+      <div class="card-title"><i data-lucide="camera" style="width:14px;height:14px"></i> Foto do casal</div>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:14px">Aparece no início do app</p>
+      <div class="upload-area couple-photo-upload" id="cfg-photo-area" onclick="document.getElementById('cfg-photo-input').click()">
+        <input type="file" id="cfg-photo-input" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handleCouplePhotoSelect(this)">
+        <div class="upload-placeholder" id="cfg-photo-placeholder">
+          <i data-lucide="camera" style="width:36px;height:36px;color:var(--rosa-300)"></i>
+          <p>Clique para adicionar a foto de vocês</p>
+        </div>
+        <div class="upload-preview" id="cfg-photo-preview" style="display:none">
+          <img id="cfg-photo-preview-img" src="" alt="">
+          <button class="preview-remove" onclick="clearCouplePhotoPreview(event)"><i data-lucide="x" style="width:14px;height:14px"></i></button>
+        </div>
+      </div>
+      <div class="form-actions" style="margin-top:14px">
+        <button class="btn btn-primary btn-sm" onclick="saveCouplePhoto()"><i data-lucide="check" style="width:14px;height:14px"></i> Salvar foto</button>
+        <button class="btn btn-secondary btn-sm" id="cfg-remove-photo-btn" onclick="removeCouplePhoto()" style="display:none"><i data-lucide="trash-2" style="width:14px;height:14px"></i> Remover</button>
+      </div>
+    </div>
+
+    <div class="card config-section">
+      <div class="card-title"><i data-lucide="heart" style="width:14px;height:14px"></i> Data do relacionamento</div>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:14px">Quando o namoro de vocês começou?</p>
+      <div class="form-grid">
+        <div>
+          <label><span class="label-icon"><i data-lucide="calendar" style="width:14px;height:14px"></i></span> Data de início</label>
+          <input type="date" id="cfg-start-date">
+        </div>
+      </div>
+      <div style="margin-top:18px">
+        <button class="btn btn-primary btn-sm" onclick="saveStartDate()"><i data-lucide="check" style="width:14px;height:14px"></i> Salvar</button>
+      </div>
+    </div>
+
+    <div class="card config-section">
+      <div class="card-title"><i data-lucide="quote" style="width:14px;height:14px"></i> Frases do casal</div>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:12px">Aparecem aleatoriamente na tela inicial</p>
+      <div class="tag-input-row">
+        <input type="text" id="cfg-new-phrase" placeholder="Adicionar uma frase especial...">
+        <button class="btn btn-secondary btn-sm tag-add-btn" onclick="addCouplePhrase()"><i data-lucide="plus" style="width:14px;height:14px"></i> Adicionar</button>
+      </div>
+      <div class="custom-tags-list" id="cfg-phrases-list"></div>
+    </div>
+
+    <div class="card config-section">
+      <div class="card-title"><i data-lucide="trash-2" style="width:14px;height:14px"></i> Dados</div>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:22px">Cuidado, esta ação é irreversível.</p>
+      <button class="btn btn-secondary btn-sm" onclick="clearAllData()" style="color:#c44"><i data-lucide="alert-triangle" style="width:14px;height:14px"></i> Limpar todos os dados</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- Lightbox -->
+<div class="lightbox-overlay" id="lightbox-overlay" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()"><i data-lucide="x" style="width:20px;height:20px"></i></button>
+  <div class="lightbox-content" onclick="event.stopPropagation()">
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-info">
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+      <div class="lightbox-date" id="lightbox-date"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Editar Momento</h2>
+      <button class="modal-close" onclick="closeModal()"><i data-lucide="x" style="width:18px;height:18px"></i></button>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label><span class="label-icon"><i data-lucide="calendar" style="width:14px;height:14px"></i></span> Data</label>
+        <input type="date" id="edit-date">
+      </div>
+      <div>
+        <label><span class="label-icon"><i data-lucide="clock" style="width:14px;height:14px"></i></span> Tempo juntos</label>
+        <div class="time-input-row">
+          <input type="number" id="edit-hours" placeholder="0" min="0" max="23" step="1">
+          <span class="time-sep">h</span>
+          <input type="number" id="edit-minutes" placeholder="0" min="0" max="59" step="1">
+          <span class="time-sep">min</span>
+        </div>
+      </div>
+      <div class="form-full">
+        <label><span class="label-icon"><i data-lucide="sparkles" style="width:14px;height:14px"></i></span> O que vocês fizeram?</label>
+        <div class="preset-tags" id="edit-preset-tags"></div>
+        <div class="custom-activity-row">
+          <input type="text" id="edit-custom-activity" placeholder="Adicionar atividade personalizada...">
+          <button class="btn btn-secondary btn-sm" onclick="addEditCustomTag()"><i data-lucide="plus" style="width:14px;height:14px"></i></button>
+        </div>
+      </div>
+      <div class="form-full">
+        <label><span class="label-icon"><i data-lucide="file-text" style="width:14px;height:14px"></i></span> Observação (opcional)</label>
+        <textarea id="edit-note" placeholder="Algo especial que queira lembrar..."></textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveEdit()"><i data-lucide="check" style="width:15px;height:15px"></i> Salvar</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal-overlay" id="confirm-overlay" onclick="cancelConfirm()">
+  <div class="modal confirm-modal" onclick="event.stopPropagation()">
+    <div class="confirm-icon">
+      <i data-lucide="alert-circle" style="width:44px;height:44px;color:var(--rosa-500)"></i>
+    </div>
+    <p id="confirm-message">Tem certeza?</p>
+    <div class="form-actions confirm-actions">
+      <button class="btn btn-primary" onclick="doConfirm()"><i data-lucide="check" style="width:15px;height:15px"></i> Confirmar</button>
+      <button class="btn btn-secondary" onclick="cancelConfirm()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script src="app.js"></script>
+</body>
+</html>
