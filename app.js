@@ -14,13 +14,12 @@ const TAG_MAP = {
   'Cozinhar':          'chef-hat',
   'Dormir juntos':     'moon',
   'Sair com amigos':   'users',
-  'Peripécias':        'flame',
 };
 
 const DEFAULT_TAGS = [
   'Assistir série','Comer juntos','Passear','Jogar','Chamego','Cinema',
   'Treinar','Estudar','Ouvir música','Cozinhar','Dormir juntos',
-  'Sair com amigos','Peripécias'
+  'Sair com amigos'
 ];
 
 // ═══════════════════════════════════════
