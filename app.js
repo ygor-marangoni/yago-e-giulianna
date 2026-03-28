@@ -342,6 +342,9 @@ function refreshHome() {
     document.getElementById('cnt-years').textContent  = years;
     document.getElementById('cnt-months').textContent = months;
     document.getElementById('cnt-days').textContent   = days;
+    document.getElementById('cnt-lbl-years').textContent  = years  === 1 ? 'ano'  : 'anos';
+    document.getElementById('cnt-lbl-months').textContent = months === 1 ? 'mês'  : 'meses';
+    document.getElementById('cnt-lbl-days').textContent   = days   === 1 ? 'dia'  : 'dias';
     const showYears  = years > 0;
     const showMonths = years > 0 || months > 0;
     document.getElementById('cnt-unit-years').style.display  = showYears  ? '' : 'none';
